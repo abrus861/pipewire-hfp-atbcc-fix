@@ -148,7 +148,7 @@ An `AT+BCC` from the headset shortly after `Enhanced Setup Synchronous Connectio
   See also [bluez/bluez#2562](https://github.com/bluez/bluez/issues/2562) and the linux-bluetooth thread
   "Bluetooth: eSCO re-setup after HFP profile switch" (Intel AX201/AX211, September 2026).
 
-The patch has not been submitted to PipeWire's GitLab yet; anyone is welcome to take it there.
+Reported upstream with the patch: [pipewire#5506](https://gitlab.freedesktop.org/pipewire/pipewire/-/issues/5506). `patches-master/` holds the same change rebased on PipeWire master.
 
 ## License
 
