@@ -1,0 +1,51 @@
+btmon timeline, PipeWire 1.6.9 + upstream !3004 + !2997 (WITHOUT the AT+BCS patch), kernel 6.18.52, Intel AX210, HUAWEI FreeClip.
+'<' = host to controller/headset, '>' = controller/headset to host. Only HCI commands/events and RFCOMM (AT) payloads are shown.
+
+--- 1st voice link after the ACL connection: works
+ 39.383 < RFCOMM  +CIEV: 2,1
+ 39.383 < HCI Command: Enhanced Setup Synchronous Connection (0x01|0x003d)
+ 39.385 > HCI Event: Command Status (0x0f)
+ 39.385           Status: Success (0x00)
+ 39.432 > HCI Event: Max Slots Change (0x1b)
+ 39.504 > RFCOMM  AT+VGS=9
+ 39.505 < RFCOMM  OK
+ 39.665 > HCI Event: Synchronous Connect Complete (0x2c), handle 257
+ 39.665           Status: Success (0x00)
+ 39.686 < RFCOMM  +VGS: 9
+ 39.686 < RFCOMM  +VGM: 8
+ 39.779 > HCI Event: Max Slots Change (0x1b)
+
+--- voice link closed (profile back to A2DP)
+ 43.378 < RFCOMM  +CIEV: 2,0
+ 43.378 < HCI Command: Disconnect (0x01|0x0006)
+ 43.380 > HCI Event: Command Status (0x0f)
+ 43.380           Status: Success (0x00)
+ 43.386 > HCI Event: Disconnect Complete (0x05)
+ 43.386           Status: Success (0x00)
+ 43.390 > HCI Event: Max Slots Change (0x1b)
+
+--- 2nd voice link: the headset sends AT+BCC while the eSCO connect is in progress
+ 47.515 < RFCOMM  +CIEV: 2,1
+ 47.515 < HCI Command: Enhanced Setup Synchronous Connection (0x01|0x003d)
+ 47.516 > HCI Event: Command Status (0x0f)
+ 47.516           Status: Success (0x00)
+ 47.526 > HCI Event: Max Slots Change (0x1b)
+ 47.675 > RFCOMM  AT+BCC
+ 47.676 < RFCOMM  OK
+ 47.676 < RFCOMM  +BCS: 2
+ 47.685 > RFCOMM  AT+VGS=9
+ 47.685 < RFCOMM  OK
+ 47.692 > RFCOMM  AT+BCS=2
+ 47.693 < HCI Command: Create Connection Cancel (0x01|0x0008)
+ 47.694 > HCI Event: Command Complete (0x0e)
+ 47.694           Status: ACL Connection Already Exists (0x0b)
+ 47.695 < RFCOMM  OK
+ 47.870 > HCI Event: Synchronous Connect Complete (0x2c), handle 257
+ 47.870           Status: Success (0x00)
+ 47.942 > HCI Event: Max Slots Change (0x1b)
+
+--- 3rd voice link and all later ones: refused by the controller
+ 55.702 < HCI Command: Enhanced Setup Synchronous Connection (0x01|0x003d)
+ 55.702 > HCI Event: Command Status (0x0f)
+ 55.702           Status: Synchronous Connection Limit to a Device Exceeded (0x0a)
+
